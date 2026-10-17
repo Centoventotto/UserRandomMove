@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package plugin
+        run: |
+          mkdir -p build/UserRandomMove
+          cp index.tsx build/UserRandomMove/
+          cd build && zip -r ../UserRandomMove.zip UserRandomMove
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" UserRandomMove.zip \
+            --title "UserRandomMove $GITHUB_REF_NAME" \
+            --notes "Extract \`UserRandomMove.zip\` into \`Equicord/src/userplugins\`, then run \`pnpm build\` and \`pnpm inject\`. See the README for details."

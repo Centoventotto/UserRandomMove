@@ -29,11 +29,13 @@ When clicked, the selected user is moved, in a random order, through every voice
 This is a user plugin, so you need to build Equicord from source.
 
 1. Follow the [Equicord guide](https://github.com/Equicord/Equicord#installing--uninstalling) to clone and build Equicord.
-2. Clone this repository into the `src/userplugins` folder:
-   ```sh
-   cd Equicord/src/userplugins
-   git clone https://github.com/centoventotto/UserRandomMove.git
-   ```
+2. Add the plugin to the `src/userplugins` folder, either:
+   - by downloading `UserRandomMove.zip` from the [latest release](https://github.com/centoventotto/UserRandomMove/releases/latest) and extracting it into `Equicord/src/userplugins`, or
+   - by cloning this repository there:
+     ```sh
+     cd Equicord/src/userplugins
+     git clone https://github.com/centoventotto/UserRandomMove.git
+     ```
 3. Rebuild and inject Equicord:
    ```sh
    pnpm build
