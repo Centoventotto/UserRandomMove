@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release tag (e.g. v1.0.0)"
+        required: true
 
 permissions:
   contents: write
@@ -11,6 +16,8 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.version || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
 
@@ -24,6 +31,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" UserRandomMove.zip \
-            --title "UserRandomMove $GITHUB_REF_NAME" \
+          gh release create "$TAG" UserRandomMove.zip \
+            --target "$GITHUB_SHA" \
+            --title "UserRandomMove $TAG" \
             --notes "Extract \`UserRandomMove.zip\` into \`Equicord/src/userplugins\`, then run \`pnpm build\` and \`pnpm inject\`. See the README for details."
